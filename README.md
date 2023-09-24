@@ -23,26 +23,27 @@ Follow these steps to run the Simple Blogging Platform locally:
 
 3. **Create a DB in postgress as BlogPlatform:**
 
+     Create the 'blogs' table
    ```bash
-   -- Create the 'blogs' table
         CREATE TABLE blogs (
             id SERIAL PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
             content TEXT
         );
-
-  -- Create the 'comments' table
+   ```
+     Create the 'comments' table
+   ```bash
        CREATE TABLE comments (
          id SERIAL PRIMARY KEY,
          blog_id INT REFERENCES blogs(id),
          content TEXT
        );
-
-  ``` 
-2. **Run :**
+   ``` 
+  
+4. **Run:**
 
    ```bash
-  node server.js
+      node server.js
    ``` 
 
 
