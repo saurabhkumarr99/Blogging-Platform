@@ -86,5 +86,6 @@ Follow these steps to run the Simple Blogging Platform locally:
 
 
 ## Author
-SAURABH KUMAR RAI
+
+- SAURABH KUMAR RAI
 
