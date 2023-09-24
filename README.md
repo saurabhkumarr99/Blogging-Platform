@@ -80,6 +80,9 @@ Follow these steps to run the Simple Blogging Platform locally:
   <img src="https://github.com/saurabhkumarr99/Blogging-Platform/raw/master/ScreenShots/1.Home%20Page.png" alt="Screenshot 1" width="300" />
   <img src="https://github.com/saurabhkumarr99/Blogging-Platform/raw/master/ScreenShots/2.Create%20Blog.png" alt="Screenshot 2" width="300" />
   <img src="https://github.com/saurabhkumarr99/Blogging-Platform/raw/master/ScreenShots/3.Read%20Blog.png" alt="Screenshot 3" width="300" />
+  <img src="https://github.com/saurabhkumarr99/Blogging-Platform/raw/master/ScreenShots/1.Home%20Page.png" alt="Screenshot 1" width="300" />
+  <img src="https://github.com/saurabhkumarr99/Blogging-Platform/raw/master/ScreenShots/2.Create%20Blog.png" alt="Screenshot 2" width="300" />
+  <img src="https://github.com/saurabhkumarr99/Blogging-Platform/raw/master/ScreenShots/3.Read%20Blog.png" alt="Screenshot 3" width="300" />
 </p
 
 
