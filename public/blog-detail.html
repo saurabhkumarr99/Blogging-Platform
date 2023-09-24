@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Blog Details</title>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Simple Blogging Platform</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/create-blog.html">Create New Blog</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body" id="blog-details">
+                        <!-- Blog title and content will be displayed here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Add a Comment</h5>
+                        <form id="comment-form">
+                            <div class="form-group">
+                                <label for="comment">Comment:</label>
+                                <textarea class="form-control" id="comment" rows="3" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Comment</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="comments-container"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Extract the blog ID from the URL query parameter
+            const params = new URLSearchParams(window.location.search);
+            const blogId = params.get('id');
+
+            // Fetch the blog details using the blog ID and display them
+            fetch(`/api/blogs/${blogId}`)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then((blog) => {
+                    const blogDetails = document.getElementById('blog-details');
+                    blogDetails.innerHTML = `
+                        <h2>${blog.title}</h2>
+                        <p>${blog.content}</p>`;
+                })
+                .catch((error) => {
+                    console.error('Fetch error:', error);
+                });
+
+            // Function to fetch and display comments
+            fetch(`/api/blogs/${blogId}/comments`)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                    console.log(response.json);
+                })
+                .then((comments) => {
+                    const commentsContainer = document.getElementById('comments-container');
+                    commentsContainer.innerHTML = ''; // Clear existing comments
+
+                    if (comments.length === 0) {
+                        commentsContainer.innerHTML = '<p>No comments yet.</p>';
+                    } else {
+                        comments.forEach((comment) => {
+
+                            const commentCard = document.createElement('div');
+                            commentCard.classList.add('card', 'mb-3');
+
+                            // Create the card body
+                            const cardBody = document.createElement('div');
+                            cardBody.classList.add('card-body');
+
+                            // Create the comment content inside a paragraph
+                            const commentContent = document.createElement('p');
+                            commentContent.classList.add('card-text');
+                            commentContent.textContent = comment.content;
+
+                            // Append the comment content to the card body
+                            cardBody.appendChild(commentContent);
+
+                            // Append the card body to the card
+                            commentCard.appendChild(cardBody);
+
+                            // Append the comment card to the comments container
+                            commentsContainer.appendChild(commentCard);
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.error('Fetch error:', error);
+                });
+            // Handle comment submission
+            const commentForm = document.getElementById('comment-form');
+            commentForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                // Extract the comment from the form
+                const comment = document.getElementById('comment').value;
+
+                // Extract the blog ID from the URL query parameter
+                const params = new URLSearchParams(window.location.search);
+                const blogId = params.get('id');
+
+                // Create an object to hold the comment data
+                const commentData = {
+                    comment: comment
+                };
+
+                // Send an HTTP POST request to the server to add the comment
+                fetch(`/api/blogs/${blogId}/comments`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(commentData)
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        location.reload();
+                        return response.json();
+                    })
+                    .then((data) => {
+                        // Comment was successfully added, you can handle this as needed
+                        console.log('Comment added:', data);
+                        location.reload();
+                       // window.location.href = window.location.href;
+                    })
+                    .catch((error) => {
+                        console.error('Fetch error:', error);
+                    });
+            });
+        });
+    </script>
+</body>
+
+</html>
